@@ -1,0 +1,43 @@
+project:
+  type: website
+
+website:
+  title: "bio-ds"
+
+  navbar:
+    background: transparent
+    search: true
+    right:
+      - text: About
+        file: index.qmd
+
+      - text: Contact
+        file: contact.qmd
+
+      - icon: github
+        href: https://github.com/imkhoibui
+
+  sidebar:
+    style: "floating"
+    
+    contents:
+      - section: "Inference"
+        contents:
+          - clt.qmd
+          - power-cal.qmd
+          - monte-carlo.qmd
+      - section: "EDA"
+        contents:
+
+    
+      
+        
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+
