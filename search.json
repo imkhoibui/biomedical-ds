@@ -1,5 +1,65 @@
 [
   {
+    "objectID": "inference/introduction.html",
+    "href": "inference/introduction.html",
+    "title": "Introduction on Inference",
+    "section": "",
+    "text": "In this section, I learned about basic data reading in an experiment:  - Dplyr library is a powerful package used for manipulating data frames in R.  - We start by loading this package.\n\nlibrary(downloader)\nlibrary(dplyr)\n\nThe example for the rest of this chapter was retrived from the genomic class’s data.  Here’s how I download the dataset\n\nurl &lt;- \"https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleMiceWeights.csv\"\nfilename &lt;- \"femaleMiceWeights.csv\"\ndownload(url, destfile=filename)\n\ndata &lt;- read.csv(filename)\n\nWe can take a look at the data’s first few rows\n\nhead(data)\n\n  Diet Bodyweight\n1 chow      21.51\n2 chow      28.14\n3 chow      24.04\n4 chow      23.45\n5 chow      23.68\n6 chow      19.79\n\n\nFor this example, I drew all the control female mice (chow) and treatment female mice (hf) into different data frames from the original dataset. Referring to the paper, the authors hypothesized that mice with treatments - a different, more fat diet would have more weights averagely than those without the treatment.  This paper was published in 2004, so the hypothesis and outcome was groundbreaking!?\n\ncontrol &lt;- filter(data, Diet == \"chow\") %&gt;% select(Bodyweight) %&gt;% unlist\ntreatment &lt;- filter(data, Diet == \"hf\") %&gt;% select(Bodyweight) %&gt;% unlist\n\n\nprint(mean(treatment))\n\n[1] 26.83417\n\nprint(mean(control))\n\n[1] 23.81333\n\nobsdiff &lt;- mean(treatment) - mean(control)\nprint(obsdiff)\n\n[1] 3.020833\n\n\nAs we could see, the differences in the treatment was noticable when we drew from a big enough population. As I have learned, this is an indication that we can use the data earned to prove/disprove the hypothesis: “Female mice that were fed a high fat diet would earn more weights than those who weren’t”.\nHowever, the data sampled was very random (hence the name random variables), what if I sample a different population and the results is the opposite (high fat diet makes female mice lose more weight?). The only way to make sure of this is to try and sample from a greater population, or more times, so that the results obtained are consolidated with each attempt.\nI guess that is the basic of sampling and random variable to me.",
+    "crumbs": [
+      "About",
+      "Inference",
+      "Introduction on Inference"
+    ]
+  },
+  {
+    "objectID": "inference/introduction.html#introduction",
+    "href": "inference/introduction.html#introduction",
+    "title": "Introduction on Inference",
+    "section": "",
+    "text": "In this section, I learned about basic data reading in an experiment:  - Dplyr library is a powerful package used for manipulating data frames in R.  - We start by loading this package.\n\nlibrary(downloader)\nlibrary(dplyr)\n\nThe example for the rest of this chapter was retrived from the genomic class’s data.  Here’s how I download the dataset\n\nurl &lt;- \"https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleMiceWeights.csv\"\nfilename &lt;- \"femaleMiceWeights.csv\"\ndownload(url, destfile=filename)\n\ndata &lt;- read.csv(filename)\n\nWe can take a look at the data’s first few rows\n\nhead(data)\n\n  Diet Bodyweight\n1 chow      21.51\n2 chow      28.14\n3 chow      24.04\n4 chow      23.45\n5 chow      23.68\n6 chow      19.79\n\n\nFor this example, I drew all the control female mice (chow) and treatment female mice (hf) into different data frames from the original dataset. Referring to the paper, the authors hypothesized that mice with treatments - a different, more fat diet would have more weights averagely than those without the treatment.  This paper was published in 2004, so the hypothesis and outcome was groundbreaking!?\n\ncontrol &lt;- filter(data, Diet == \"chow\") %&gt;% select(Bodyweight) %&gt;% unlist\ntreatment &lt;- filter(data, Diet == \"hf\") %&gt;% select(Bodyweight) %&gt;% unlist\n\n\nprint(mean(treatment))\n\n[1] 26.83417\n\nprint(mean(control))\n\n[1] 23.81333\n\nobsdiff &lt;- mean(treatment) - mean(control)\nprint(obsdiff)\n\n[1] 3.020833\n\n\nAs we could see, the differences in the treatment was noticable when we drew from a big enough population. As I have learned, this is an indication that we can use the data earned to prove/disprove the hypothesis: “Female mice that were fed a high fat diet would earn more weights than those who weren’t”.\nHowever, the data sampled was very random (hence the name random variables), what if I sample a different population and the results is the opposite (high fat diet makes female mice lose more weight?). The only way to make sure of this is to try and sample from a greater population, or more times, so that the results obtained are consolidated with each attempt.\nI guess that is the basic of sampling and random variable to me.",
+    "crumbs": [
+      "About",
+      "Inference",
+      "Introduction on Inference"
+    ]
+  },
+  {
+    "objectID": "inference/introduction.html#random-variable",
+    "href": "inference/introduction.html#random-variable",
+    "title": "Introduction on Inference",
+    "section": "Random variable",
+    "text": "Random variable\nNow let’s draw from a regular, no diet population.\n\nurl &lt;- \"https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleControlsPopulation.csv\"\nfilename &lt;- \"femaleControlsPopulation.csv\"\ndownload(url, destfile=filename)\n\npopulation &lt;- read.csv(filename)\npopulation &lt;- unlist(population)\n\nNow we can try to sample the data many time\n\ncontrol &lt;- sample(population, 12)\nprint(paste(\"Drawing once\", mean(control)))\n\n[1] \"Drawing once 25.575\"\n\ncontrol &lt;- sample(population, 12)\nprint(paste(\"Drawing twice\", mean(control)))\n\n[1] \"Drawing twice 22.2791666666667\"\n\ncontrol &lt;- sample(population, 12)\nprint(paste(\"Drawing for the third time\", mean(control)))\n\n[1] \"Drawing for the third time 23.1033333333333\"\n\n\nEach sample gives a different mean of the control population. Hmmm, surely there must be a way for us to make sense of the sample average in relation to the population average?",
+    "crumbs": [
+      "About",
+      "Inference",
+      "Introduction on Inference"
+    ]
+  },
+  {
+    "objectID": "inference/introduction.html#the-null-hypothesis",
+    "href": "inference/introduction.html#the-null-hypothesis",
+    "title": "Introduction on Inference",
+    "section": "The Null Hypothesis",
+    "text": "The Null Hypothesis\nEverytime we establish a hypothesis, we must concurrently establish a null hypothesis, which is the negated version of what we hypothesized. This is crucial in science, since if you want to test for something, how do you prove that it’s true? We don’t actually, the only way to test is to try and disprove it, not to prove it, as we want to make progress and advancement through “fixing” our old understanding of the subject. Science is about falsifiability, if something is omni-correct, then it’s not science, it’s not quantifiable, it’s not possible to be debunked.\n\nsampling_times &lt;- 10000\nnull &lt;- vector(\"numeric\", sampling_times)\n\nfor (i in 1:sampling_times) {\n    control &lt;- sample(population, 12)\n    treatment &lt;- sample(population, 12)\n    null[i] &lt;- mean(treatment) - mean(control)\n}\n\nprint(mean(null &gt;= obsdiff))\n\n[1] 0.0131\n\n\nAs we can see, there’s not a lot of percentage, out of the 10000 samples, a very small percentile shows greater difference than the difference between control and treatment group above. Informally, this is known as p-value.",
+    "crumbs": [
+      "About",
+      "Inference",
+      "Introduction on Inference"
+    ]
+  },
+  {
+    "objectID": "inference/introduction.html#probability-distributions",
+    "href": "inference/introduction.html#probability-distributions",
+    "title": "Introduction on Inference",
+    "section": "Probability Distributions",
+    "text": "Probability Distributions\nDistributions as my understanding, is a way to measure and make sense of the differences/variances among data within a specific metric/group. Say you have data of patients’ ages who visited the Cho Ray hospital in 2023, what can you say/describe in an overall fashion about the data? One such way is to use a CDF (cumulative distribution function).\nLet’s start with a height example (because sadly I don’t have the data from Cho Ray hospital).\n\nround(sample(x, 10), 1)\n\n [1] 63.9 64.4 62.1 67.1 67.3 67.5 66.1 63.9 64.7 64.1\n\nsmallest &lt;- floor(min(x))\nlargest &lt;- ceiling(max(x))\nvalues &lt;- seq(smallest, largest, len=300)\nheightecdf &lt;- ecdf(x)\nplot(values, heightecdf(values), type=\"l\",\n    xlab=\"a (Height in inches)\", ylab=\"Pr(x &lt;= a)\")\n\n\n\n\n\n\n\n\nThe probability function explains that, “we start out with 0 example and 0 CDF, as the number of examples increase, the number of CDF also increase but you can kinda tell where most of the data lies within those examples”.\nSo for this data, no one was observed under ~58 inches, but there are a few at the height increases, and no further observation is greater than ~77 inches.\nHistogram is another great way to illustrate the data:\n\nbins &lt;- seq(smallest, largest)\nhist(x, breaks = bins, xlab = \"Height (in inches)\", main = \"Adult heights\")",
+    "crumbs": [
+      "About",
+      "Inference",
+      "Introduction on Inference"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "About",
@@ -11,6 +71,6 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
+    "text": "Sections covered:\n\n1. Inference   This section covers the foundational terms related to biomedical data science.  I ponder upon the learned concepts from my MATH205 - Probability course, and I attempt to revisit them in this section.\nWhat is a probability distribution? What makes a hypothesis rejected? What is the intuition behind statistical tests?…\nThose are the questions that should be found within this section.\n 2. Exploratory Data Analysis \n 3. Robust Statistics"
   }
 ]
