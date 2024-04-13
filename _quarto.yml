@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "bio-ds"
+  title: "Biomedical Data Science"
 
   navbar:
     background: transparent
@@ -23,15 +23,14 @@ website:
     contents:
       - section: "Inference"
         contents:
-          - clt.qmd
-          - power-cal.qmd
-          - monte-carlo.qmd
+          - inference/introduction.qmd
+          - inference/clt.qmd
+          - inference/power-cal.qmd
+          - inference/monte-carlo.qmd
       - section: "EDA"
         contents:
 
-    
       
-        
 
 format:
   html:

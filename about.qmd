@@ -2,4 +2,18 @@
 title: "About"
 ---
 
-About this site
+<h3> Sections covered: </h3>
+
+<strong>1. Inference </strong> <br>
+This section covers the foundational terms related to biomedical data science. <br>
+I ponder upon the learned concepts from my MATH205 - Probability course, and I 
+attempt to revisit them in this section.
+
+What is a probability distribution? What makes a hypothesis rejected? What is
+the intuition behind statistical tests?...
+
+Those are the questions that should be found within this section.
+
+<strong> 2. Exploratory Data Analysis </strong>
+
+<strong> 3. Robust Statistics </strong> 
