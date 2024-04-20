@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../inference/monte-carlo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Monte Carlo simulation</span></a>
+ <span class="menu-text">Monte Carlo methods</span></a>
   </div>
 </li>
       </ul>
@@ -304,17 +304,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">sample</span>(population, <span class="dv">12</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Drawing once"</span>, <span class="fu">mean</span>(control)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Drawing once 24.4858333333333"</code></pre>
+<pre><code>[1] "Drawing once 25.3241666666667"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">sample</span>(population, <span class="dv">12</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Drawing twice"</span>, <span class="fu">mean</span>(control)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Drawing twice 23.7983333333333"</code></pre>
+<pre><code>[1] "Drawing twice 24.8333333333333"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">sample</span>(population, <span class="dv">12</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Drawing for the third time"</span>, <span class="fu">mean</span>(control)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Drawing for the third time 23.1291666666667"</code></pre>
+<pre><code>[1] "Drawing for the third time 22.8433333333333"</code></pre>
 </div>
 </div>
 <p>Each sample gives a different mean of the control population. Hmmm, surely there must be a way for us to make sense of the sample average in relation to the population average?</p>
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">mean</span>(null <span class="sc">&gt;=</span> obsdiff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.011</code></pre>
+<pre><code>[1] 0.0143</code></pre>
 </div>
 </div>
 <p>As we can see, there’s not a lot of percentage, out of the 10000 samples, a very small percentile shows greater difference than the difference between control and treatment group above. Informally, this is known as p-value.</p>
@@ -346,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sample</span>(x, <span class="dv">10</span>), <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 64.8 70.5 65.7 63.7 64.7 68.8 62.7 63.6 64.5 66.3</code></pre>
+<pre><code> [1] 64.7 64.6 69.3 69.3 68.6 65.1 69.2 68.6 69.6 69.6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>smallest <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(x))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>largest <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(x))</span>

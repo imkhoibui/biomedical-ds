@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -154,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../inference/monte-carlo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Monte Carlo simulation</span></a>
+ <span class="menu-text">Monte Carlo methods</span></a>
   </div>
 </li>
       </ul>
@@ -169,7 +203,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#power-calculations---an-introduction-to-types-of-error" id="toc-power-calculations---an-introduction-to-types-of-error" class="nav-link active" data-scroll-target="#power-calculations---an-introduction-to-types-of-error">Power Calculations - an Introduction to types of error</a></li>
+  <li><a href="#the-0.05-and-0.01-are-arbitrary" id="toc-the-0.05-and-0.01-are-arbitrary" class="nav-link" data-scroll-target="#the-0.05-and-0.01-are-arbitrary">The 0.05 and 0.01 are arbitrary</a>
+  <ul class="collapse">
+  <li><a href="#power-calculations" id="toc-power-calculations" class="nav-link" data-scroll-target="#power-calculations">Power calculations</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -193,8 +237,74 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="power-calculations---an-introduction-to-types-of-error" class="level1">
+<h1>Power Calculations - an Introduction to types of error</h1>
+<p>Type I error refers to the instance where we reject the null when p-value is less than 0.05 (1 out of 20). P-value is mostly never 0, we are just saying that the chance where we got to reject it when it’s true is relatively small. This is also called false positive.</p>
+<p>On the other hand, I pondered about, “well if 0.05 implies that there’s a chance we might be rejecting the null hypothesis even when it’s true, why don’t we just set p-value to be incredibly small, like 0.0001 for instance?”. In this case, you and I might be missing out on NOT rejecting the null hypothesis when we should. This is called type II error.</p>
+</section>
+<section id="the-0.05-and-0.01-are-arbitrary" class="level1">
+<h1>The 0.05 and 0.01 are arbitrary</h1>
+<p>Usually, we reject the null hypothesis when p-value is lower than 0.05 or 0.01 levels. But the intuition behind this is not always clearly stated, it just so happens that original papers on the topics use the number, and it has become a custom since.</p>
+<p>Here I attempt to retrace what I understand about the values:</p>
+<section id="power-calculations" class="level2">
+<h2 class="anchored" data-anchor-id="power-calculations">Power calculations</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reject <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">alpha=</span><span class="fl">0.05</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    hf <span class="ot">&lt;-</span> <span class="fu">sample</span>(hfPopulation, N)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    control <span class="ot">&lt;-</span> <span class="fu">sample</span>(controlPopulation, N)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    pval <span class="ot">&lt;-</span> <span class="fu">t.test</span>(hf, control)<span class="sc">$</span>p.value</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    pval <span class="sc">&lt;</span> alpha</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rejections <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">reject</span>(N))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rejections)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2245</code></pre>
+</div>
+</div>
+<p>We can see that with a replication of drawing samples from hf and control populations, each with only 12 individuals per sample, the percentile in which we reject the null hypothesis out of 2000 repetitions is pretty low.</p>
+<p>Let’s see how the change in power improves with larger sample size.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">sapply</span>(Ns, <span class="cf">function</span>(N) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    rejections <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">reject</span>(N))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(rejections)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Ns, power, <span class="at">type =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="power-cal_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that with a sample size of 12, the result gave us the mean similar to what we calculated before, and as the sample size grows, the power is increasing accordingly.</p>
+<p>The same power change can be observed if we instead change the alpha:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>alphas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.05</span>,<span class="fl">0.01</span>,<span class="fl">0.001</span>,<span class="fl">0.0001</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">sapply</span>(alphas, <span class="cf">function</span>(alpha){</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  rejections <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">reject</span>(N, <span class="at">alpha=</span>alpha))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(rejections)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(alphas, power, <span class="at">xlab=</span><span class="st">"alpha"</span>, <span class="at">type=</span><span class="st">"b"</span>, <span class="at">log=</span><span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="power-cal_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
